@@ -8,7 +8,7 @@ def rescaleFrame(frame, scale=0.7):
 
     return cv.resize(frame, dimensions,interpolation=cv.INTER_AREA)
 
-img = cv.imread('cars4.jpg')
+img = cv.imread('cars_3.webp')
 cv.imshow('Car', img)
 
 scaleup = rescaleFrame(img)
