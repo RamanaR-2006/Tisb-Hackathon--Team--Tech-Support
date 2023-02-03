@@ -4,30 +4,34 @@ import time
 import cv2 as cv
 import numpy as np
 
-def rescaleFrame(frame, scale=1.5):
+framecount = 500
+
+'''def rescaleFrame(frame, scale=1.5):
     width = int(frame.shape[1] * scale)
     height = int(frame.shape[0] * scale)
-    dimensions = (width, height)
+    dimensions = (width, height
 
-    return cv.resize(frame, dimensions,interpolation=cv.INTER_AREA)
+    return cv.resize(frame, dimensions,interpolation=cv.INTER_AREA)'''
 capture = cv.VideoCapture(r"C:\Users\siddharth\Desktop\TISBHACKS\GUI\dataset_video1 (1).avi")
-
 plt.ion()
 
 fig, ax = plt.subplots()
 x2 = [0]
 y2 = [0]
 
-line = ax.plot(x2, y2)
+line, = ax.plot(x2, y2)
+
+AVG_time = []
 
 count = 0
 
 while True:
+    
     isTrue, Frame = capture.read()
-    scaleup = rescaleFrame(Frame)
+    #scaleup = rescaleFrame(Frame)
     #cv.imshow('Scaled up', scaleup)
 
-    gray = cv.cvtColor(scaleup, cv.COLOR_BGR2GRAY)
+    gray = cv.cvtColor(Frame, cv.COLOR_BGR2GRAY)
     #cv.imshow('Grayscale Car', gray)
 
     blur = cv.GaussianBlur(gray,(5,5),0)
@@ -44,23 +48,26 @@ while True:
     
 
     for (x, y, w, h) in cars:
-        cv.rectangle(scaleup, (x,y), (x+w, y+h), (0,255,0), thickness=1)
-
-    #cv.imshow('Detected Cars', scaleup)
-    
-
-#capture.release()
-#cv.destroyAllWindows
+        cv.rectangle(Frame, (x,y), (x+w, y+h), (0,255,0), thickness=1)
+        print('a')
+    cv.imshow('Detected Cars', Frame)
+    if cv.waitKey(20) & 0xFF==ord('d'):
+        break
 
     
     
-    AVG_time = []
-    check = False
-    while check == False:
-        no = len(cars)
-        time.sleep(3)
-        AVG_time.append(no)
-        while len(AVG_time) == 10:
+
+    
+    
+    
+    
+    
+    no = len(cars)
+        
+    AVG_time.append(no)
+    print(AVG_time)
+    while len(AVG_time) == 10:
+            count += 1
             x2.append(count)
             y2.append(sum(AVG_time)/10)
             line.set_data(x2, y2)
@@ -68,11 +75,18 @@ while True:
             ax.autoscale_view()
             fig.canvas.draw()
             fig.canvas.flush_events()
-            check = True
+            
             plt.ioff()
-            plt.show(block=False)
+            plt.show()
             AVG_time.clear()
-    count += 1
+            print(AVG_time)
+            
     print(count)
-    if count == 11:
+    
+    framecount -= 1
+
+    if framecount == 0:
         break
+
+capture.release()
+cv.destroyAllWindows
