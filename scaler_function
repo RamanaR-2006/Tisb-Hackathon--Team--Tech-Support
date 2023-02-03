@@ -1,0 +1,49 @@
+list = [20, 22, 27, 25, 23, 22, 21, 20, 45, 48, 45, 80, 72, 73, 10]
+mean = 22
+avg = 0
+f_avgList = []
+total = 0
+compare = 0
+count = 0
+for i in list:
+    dif = i - mean
+    if list.index(i) != 0:
+        compare = list[list.index(i)-1]
+        temp = i - compare
+        if temp <= -10 or temp >= 10:
+            f_avgList.append(f_avg)
+            count = 0
+            total = 0
+    if dif <= 0:
+        scale_factor = 0.95
+        total += i
+        count += 1
+        avg = total/count
+        f_avg = avg * scale_factor
+    elif 0 < dif <= 10:
+        scale_factor = 0.87
+        total += i
+        count += 1
+        avg = total/count
+        f_avg = avg * scale_factor
+    elif 10 < dif <= 20:
+        scale_factor = 0.79
+        total += i
+        count += 1
+        avg = total/count
+        f_avg = avg * scale_factor
+    elif 20 < dif <= 30:
+        scale_factor = 0.71
+        total += i
+        count += 1
+        avg = total/count
+        f_avg = avg * scale_factor
+    elif dif > 30:
+        print("STATUS: ABNORMAL HIGH CONGESTION")
+        scale_factor = 0.63
+        total += i
+        count += 1
+        avg = total/count
+        f_avg = avg * scale_factor
+final_avg = sum(f_avgList)/len(f_avgList)
+print(final_avg)

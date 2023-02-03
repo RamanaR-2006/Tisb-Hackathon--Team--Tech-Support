@@ -1,0 +1,36 @@
+import matplotlib.pyplot as plt
+import random
+import time
+
+plt.ion()
+
+fig, ax = plt.subplots()
+x = [0]
+y = [0]
+
+line, = ax.plot(x, y)
+
+count = 0
+while True:
+    AVG_time = []
+    check = False
+    while check == False:
+        no = random.uniform(0, 150)
+        time.sleep(1/60)
+        AVG_time.append(no)
+        while len(AVG_time) == 60:
+            x.append(count)
+            y.append(sum(AVG_time)/60)
+            line.set_data(x, y)
+            ax.relim()
+            ax.autoscale_view()
+            fig.canvas.draw()
+            fig.canvas.flush_events()
+            check = True
+            plt.ioff()
+            plt.show(block=False)
+            AVG_time.clear()
+    count += 1
+    print(count)
+    if count == 10:
+        break
